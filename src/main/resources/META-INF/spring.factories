@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=my.company.core.configuration.AuthConfiguration, \
+my.company.core.configuration.ExceptionConfiguration, \
+my.company.core.configuration.ServiceConfiguration
