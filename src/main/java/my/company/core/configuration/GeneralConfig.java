@@ -24,7 +24,9 @@ public class GeneralConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 allowedOrigins
-                        .forEach(alOr -> registry.addMapping("/**").allowedOrigins(alOr));
+                        .forEach(alOr -> registry.addMapping("/**")
+                                .allowedOrigins(alOr)
+                                .allowedMethods("GET", "POST","PUT", "DELETE"));
             }
         };
     }
