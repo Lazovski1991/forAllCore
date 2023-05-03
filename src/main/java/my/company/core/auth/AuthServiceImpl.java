@@ -1,52 +1,32 @@
 package my.company.core.auth;
 
-import org.keycloak.TokenVerifier;
-import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
-import org.keycloak.common.VerificationException;
-import org.keycloak.representations.AccessToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Service;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static my.company.core.auth.CustomAttributesType.AVATAR;
-
 public class AuthServiceImpl implements AuthService {
     @Override
-    public UserPrincipal getUserPrincipal(KeycloakAuthenticationToken principal, Collection<GrantedAuthority> authorities) {
-        String token = principal.getAccount().getKeycloakSecurityContext().getTokenString();
-        TokenVerifier<AccessToken> accessTokenTokenVerifier = TokenVerifier.create(token, AccessToken.class);
+    public AuthUser getUserPrincipal(Jwt jwt) {
+        Map<String, Object> claims = jwt.getClaims();
 
-        String userName = null;
-        String email = null;
-        final Map<String, String> customAttributes = new HashMap<>();
+        return new AuthUser()
+                .setUserId(getClaimValue("sub", claims))
+                .setUsername(getClaimValue("preferred_username", claims))
+                .setEmail(getClaimValue("email", claims))
+                .setCustomAttributes(getCustomAttributes(claims));
+    }
 
-        try {
-            AccessToken accessToken = accessTokenTokenVerifier.getToken();
+    private HashMap<String, String> getCustomAttributes(Map<String, Object> claims) {
+        HashMap<String, String> map = new HashMap<>();
+        Arrays.stream(CustomAttributesType.values())
+                .forEach((type) -> map.put(type.getName(), getClaimValue(type.getName(), claims)));
 
-            userName = accessToken.getPreferredUsername();
-            email = accessToken.getEmail();
-            //getting custom attributes from keyckloak which name in CustomAttributesType
-            Map<String, Object> otherClaims = accessTokenTokenVerifier.getToken().getOtherClaims();
-            Arrays.stream(CustomAttributesType.values())
-                    .forEach(attr -> {
-                                if (otherClaims.containsKey(attr.getName())) {
-                                    customAttributes.put(attr.getName(), String.valueOf(otherClaims.get(AVATAR.getName())));
-                                }
-                            }
-                    );
-        } catch (VerificationException e) {
-            return null;
-        }
-        AuthUser user = new AuthUser()
-                .setUserId(principal.getAccount().getPrincipal().getName())
-                .setUsername(userName)
-                .setEmail(email)
-                .setCustomAttributes(customAttributes);
+        return map;
+    }
 
-        return new UserPrincipal(user, authorities);
+    private String getClaimValue(String claimName, Map<String, Object> claims) {
+        return claims.get(claimName) != null ? (String) claims.get(claimName) : null;
     }
 }

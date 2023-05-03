@@ -1,12 +1,12 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.3'
-    id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+    id 'org.springframework.boot' version '3.0.6'
+    id 'io.spring.dependency-management' version '1.1.0'
     id 'java'
     id 'maven-publish'
 }
 
 group = 'my.company'
-sourceCompatibility = '1.8'
+sourceCompatibility = '17'
 
 configurations {
     compileOnly {
@@ -20,13 +20,14 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.keycloak:keycloak-spring-boot-starter:19.0.1'
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-    implementation 'com.github.Lazovski1991:request-logger:2.3.0'
+    implementation 'com.github.Lazovski1991:request-logger:3.0.1'
 }
 
 tasks.named('test') {
@@ -45,7 +46,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
-            version = "0.0.1"
+            version = "3.0.0-beta1"
         }
     }
 }

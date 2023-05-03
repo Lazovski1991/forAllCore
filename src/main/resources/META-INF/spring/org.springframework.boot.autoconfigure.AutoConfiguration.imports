@@ -1,0 +1,6 @@
+my.company.core.configuration.AuthConfiguration
+my.company.core.configuration.ExceptionConfiguration
+my.company.core.configuration.ServiceConfiguration
+my.company.core.configuration.MessageConfig
+my.company.core.configuration.GeneralConfig
+my.company.core.configuration.JacksonConfig
