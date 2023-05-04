@@ -4,3 +4,4 @@ my.company.core.configuration.ServiceConfiguration
 my.company.core.configuration.MessageConfig
 my.company.core.configuration.GeneralConfig
 my.company.core.configuration.JacksonConfig
+my.company.core.configuration.SwaggerConfig
