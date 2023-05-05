@@ -8,6 +8,7 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -16,28 +17,15 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 public class SwaggerConfig {
-    @Value("${springdoc.doc-api-info.title}")
-    private String title;
-    @Value("${springdoc.doc-api-info.description}")
-    private String description;
-    @Value("${springdoc.doc-api-info.version}")
-    private String version;
-    @Value("${springdoc.doc-api-info.license.name}")
-    private String licenseName;
-    @Value("${springdoc.doc-api-info.license.url}")
-    private String licenseUrl;
-    @Value("${springdoc.doc-api-info.contact.name}")
-    private String contactName;
-    @Value("${springdoc.doc-api-info.contact.email}")
-    private String contactEmail;
-    @Value("${springdoc.doc-api-info.contact.url}")
-    private String contactUrl;
+    private final SwaggerProperties swaggerProperties;
+
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
     private String authServer;
 
     @Bean
-    @ConditionalOnProperty(prefix = "springdoc", name = "enabled", havingValue = "true", matchIfMissing = false)
+    @ConditionalOnProperty(prefix = "springdoc.api-docs", name = "enabled", havingValue = "true", matchIfMissing = true)
     public OpenAPI openAPI() {
         return new OpenAPI()
                 .components(new Components()
@@ -48,15 +36,16 @@ public class SwaggerConfig {
     }
 
     private Info getApiInfo() {
+        SwaggerProperties.DocApiInfo docApiInfo = swaggerProperties.getDocApiInfo();
         return new Info()
-                .title(title)
-                .description(description)
-                .version(version)
-                .license(new License().name(licenseName).url(licenseUrl))
+                .title(docApiInfo.getTitle())
+                .description(docApiInfo.getDescription())
+                .version(docApiInfo.getVersion())
+                .license(new License().name(docApiInfo.getLicense().getName()).url(docApiInfo.getLicense().getUrl()))
                 .contact(new Contact()
-                        .name(contactName)
-                        .email(contactEmail)
-                        .url(contactUrl));
+                        .name(docApiInfo.getContact().getName())
+                        .email(docApiInfo.getContact().getEmail())
+                        .url(docApiInfo.getContact().getUrl()));
     }
 
     private SecurityScheme getSecurityScheme() {

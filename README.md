@@ -43,19 +43,20 @@ Library can use spring doc. You can enable this in our properties.
 Example setting spring doc:
 ````
 springdoc:
-    enabled: true //this parameter required if you wat use spring doc
-    packages-to-scan: my.company.imageservice
-    swagger-ui:
-        path: /swagger-ui.html #http://localhost:8081/api/template/swagger-ui/index.html
-    doc-api-info:
-        title: image-microservice
-        description: "for building new microservices"
-        version: 1.0.0
-        license:
-            name: JavaForAll
-            url: https://javafarall.tech/license
-        contact:
-            name: "Alexander Lazovski"
-            email: Lazovski1991@gmail.com
-            url: https://javafarall.tech
+  api-docs:
+    enabled: true //this parameter disable swagger
+  packages-to-scan: my.company.imageservice
+  swagger-ui:
+    path: /swagger-ui.html #http://localhost:8081/api/template/swagger-ui/index.html
+  doc-api-info:
+    title: image-microservice
+    description: "for building new microservices"
+    version: 1.0.0
+    license:
+      name: JavaForAll
+      url: https://javafarall.tech/license
+    contact:
+      name: "Alexander Lazovski"
+      email: Lazovski1991@gmail.com
+      url: https://javafarall.tech
 ````
