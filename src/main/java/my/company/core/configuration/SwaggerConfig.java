@@ -9,6 +9,7 @@ import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -36,6 +37,7 @@ public class SwaggerConfig {
     private String authServer;
 
     @Bean
+    @ConditionalOnProperty(prefix = "springdoc", name = "enabled", havingValue = "true", matchIfMissing = false)
     public OpenAPI openAPI() {
         return new OpenAPI()
                 .components(new Components()

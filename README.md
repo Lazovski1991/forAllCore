@@ -1,9 +1,10 @@
-# **Библиотека вспомогательных бинов**
+# **Library extra beans**
 
-Для поддержки spring-boot-3 появилась отдельная ветка spring3 и сейчас она на стадии бета версии с тегом 3.0.0-beta1. Для работы с версиями 2.** сейчас последняя версия с тегом 0.2.2.
+For support spring-boot-3 exist branch spring3 and now it is developing and testing. For work with version spring boot 2.*.* now exist last version with tag 0.2.2.
 
-### Подлючение к проекту
-1. Добавить репозиторий в проект. Пример для maven:
+
+### Connection with project
+1. Add repository in project. Example for maven:
 ````
 <repositories>
 	<repository>
@@ -12,7 +13,7 @@
 	</repository>
 </repositories>
 ````
-Для gradle:
+For gradle:
 ````
 allprojects {
 	repositories {
@@ -21,7 +22,7 @@ allprojects {
 	}
 }
 ````
-2. Добавить зависомость(уточнять последнюю версию). Пример для Maven:
+2. Add dependency(Specify last version). Example for Maven:
 ````
 <dependency>
 	 <groupId>com.github.Lazovski1991</groupId>
@@ -30,9 +31,31 @@ allprojects {
 </dependency>
 ````
 
-Для gradle:
+For gradle:
 ````
 dependencies {
    implementation 'com.github.Lazovski1991:forAllCore:0.2.0'
 }
+````
+
+Library can use spring doc. You can enable this in our properties.
+
+Example setting spring doc:
+````
+springdoc:
+    enabled: true //this parameter required if you wat use spring doc
+    packages-to-scan: my.company.imageservice
+    swagger-ui:
+        path: /swagger-ui.html #http://localhost:8081/api/template/swagger-ui/index.html
+    doc-api-info:
+        title: image-microservice
+        description: "for building new microservices"
+        version: 1.0.0
+        license:
+            name: JavaForAll
+            url: https://javafarall.tech/license
+        contact:
+            name: "Alexander Lazovski"
+            email: Lazovski1991@gmail.com
+            url: https://javafarall.tech
 ````
