@@ -8,6 +8,7 @@ public enum ExceptionType {
     DB("db"),
     EXT("ext"),
     LOGIC("logic"),
+    IO("io"),
     GENERAL("general");
 
     private String type;

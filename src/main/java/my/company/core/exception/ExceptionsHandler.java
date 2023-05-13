@@ -69,6 +69,18 @@ public class ExceptionsHandler {
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(value = {FileSystemException.class})
+    protected ResponseEntity<Object> handleFileSysExc(FileSystemException ex, WebRequest request) {
+        ExceptionModel response = new ExceptionModel()
+                .setMessage(exceptionMessageService.getMessageException(ROOT_EXCEPTION_PATH, LOGIC, ex.getCode()))
+                .setCode(ex.getCode())
+                .setType(IO)
+                .setTime(ZonedDateTime.now())
+                .setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        LogUtil.INSTANCE.stackTraceLog(ex, 10000);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(value = {Exception.class})
     protected ResponseEntity<Object> handleDefaultExc(Exception ex, WebRequest request) {
         ExceptionModel response = new ExceptionModel()
