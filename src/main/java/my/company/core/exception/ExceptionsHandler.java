@@ -72,7 +72,7 @@ public class ExceptionsHandler {
     @ExceptionHandler(value = {FileSystemException.class})
     protected ResponseEntity<Object> handleFileSysExc(FileSystemException ex, WebRequest request) {
         ExceptionModel response = new ExceptionModel()
-                .setMessage(exceptionMessageService.getMessageException(ROOT_EXCEPTION_PATH, LOGIC, ex.getCode()))
+                .setMessage(exceptionMessageService.getMessageException(ROOT_EXCEPTION_PATH, IO, ex.getCode()))
                 .setCode(ex.getCode())
                 .setType(IO)
                 .setTime(ZonedDateTime.now())
