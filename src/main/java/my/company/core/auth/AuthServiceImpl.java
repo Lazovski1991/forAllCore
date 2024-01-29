@@ -4,17 +4,19 @@ import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AuthServiceImpl implements AuthService {
     @Override
-    public AuthUser getUserPrincipal(Jwt jwt) {
+    public AuthUser getUserPrincipal(Jwt jwt, List<String> roles) {
         Map<String, Object> claims = jwt.getClaims();
 
         return new AuthUser()
                 .setUserId(getClaimValue("sub", claims))
                 .setUsername(getClaimValue("preferred_username", claims))
                 .setEmail(getClaimValue("email", claims))
+                .setRoles(roles)
                 .setCustomAttributes(getCustomAttributes(claims));
     }
 

@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,7 +27,12 @@ public class JwtAuthConverter implements Converter<Jwt, CustomAuthenticationToke
                 jwtGrantedAuthoritiesConverter.convert(jwt).stream(),
                 extractResourceRoles(jwt).stream()).collect(Collectors.toSet());
 
-        AuthUser authUser = authService.getUserPrincipal(jwt);
+        List<String> roles = authorities.stream()
+                .filter(auth -> auth.getAuthority().startsWith("ROLE_"))
+                .map(auth -> auth.getAuthority().replace("ROLE_", ""))
+                .toList();
+
+        AuthUser authUser = authService.getUserPrincipal(jwt, roles);
 
         return new CustomAuthenticationToken(jwt, authorities, authUser);
     }
