@@ -12,6 +12,6 @@ public class AuthUser {
     private String userId;
     private String username;
     private String email;
-    private List<String> roles;
+    private List<Role> roles;
     private Map<String, String> customAttributes;
 }

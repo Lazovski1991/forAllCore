@@ -12,11 +12,15 @@ public class AuthServiceImpl implements AuthService {
     public AuthUser getUserPrincipal(Jwt jwt, List<String> roles) {
         Map<String, Object> claims = jwt.getClaims();
 
+        List<Role> roleList = roles.stream()
+                .map(Role::getRole)
+                .toList();
+
         return new AuthUser()
                 .setUserId(getClaimValue("sub", claims))
                 .setUsername(getClaimValue("preferred_username", claims))
                 .setEmail(getClaimValue("email", claims))
-                .setRoles(roles)
+                .setRoles(roleList)
                 .setCustomAttributes(getCustomAttributes(claims));
     }
 
